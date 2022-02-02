@@ -73,7 +73,7 @@ public class App {
     }
 
     public static void runLongBreakTime() throws InterruptedException {
-        int longBreakTime = 14 * 60 * 1000;
+        int longBreakTime = 15 * 60 * 1000;
         minutes = timeInMinutes(longBreakTime) % 60;
         System.out.println("====== long break time =======");
         while (longBreakTime > 0) {
