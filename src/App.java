@@ -79,8 +79,8 @@ public class App {
             System.out.format("%02d:%02d\n", minutes, seconds);
             Thread.sleep(1000);
             longBreakTime -= 1000;
-            minutes = breakTime / 60 / 1000 % 60;
-            seconds = breakTime / 1000 % 60;
+            minutes = longBreakTime / 60 / 1000 % 60;
+            seconds = longBreakTime / 1000 % 60;
         }
         longBreakTimeCount++;
     }
