@@ -5,11 +5,9 @@ public class App {
     private static int workTimeCount;
     private static int breakTimeCount;
     private static int longBreakTimeCount;
-    private static int minutes;
-    private static int seconds;
     private static final Scanner scn = new Scanner(System.in);
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
         int option = 0;
 
@@ -22,15 +20,19 @@ public class App {
             option = scn.nextInt();
             switch (option) {
                 case 1:
-                    runWorkTime();
+                    runTime(Time.WORK_TIME, "work time");
+                    workTimeCount++;
                     break;
                 case 2:
-                    runBreakTime();
+                    runTime(Time.BREAK_TIME, "break time");
+                    breakTimeCount++;
                     break;
                 case 3:
-                    runLongBreakTime();
+                    runTime(Time.LONG_BREAK_TIME, "long break time");
+                    longBreakTimeCount++;
                     break;
                 case -1:
+                    System.out.println("Exiting...");
                     break;
                 default:
                     System.err.println("Invalid option. Try again!");
@@ -40,50 +42,28 @@ public class App {
         scn.close();
         System.out.println("Amount of work time: " + workTimeCount);
         System.out.println("Amount of break time: " + breakTimeCount);
-        System.out.println("Amount of long break time" + longBreakTimeCount);
+        System.out.println("Amount of long break time: " + longBreakTimeCount);
 
     }
 
-    public static void runWorkTime() throws InterruptedException {
-        int workTime = 25 * 60 * 1000;
-        minutes = timeInMinutes(workTime) % 60;
-        System.out.println("====== work time =======");
-        while (workTime > 0) {
+    public static void runTime(Time time, String message)  {
+        int timeValue = time.value * 60 * 1000;
+        int minutes = timeInMinutes(timeValue) % 60;
+        int seconds = timeInSeconds(timeValue) % 60;
+        System.out.println("====== " + message + " =======");
+        while (timeValue > 0) {
             System.out.format("%02d:%02d\n", minutes, seconds);
-            Thread.sleep(1000);
-            workTime -= 1000;
-            minutes = timeInMinutes(workTime) % 60;
-            seconds = timeInSeconds(workTime) % 60;
+            try {
+                Thread.sleep(1000);
+                System.out.println("\033[H\033[2J");
+                System.out.flush();
+                timeValue -= 1000;
+                minutes = timeInMinutes(timeValue) % 60;
+                seconds = timeInSeconds(timeValue) % 60;
+            } catch (InterruptedException e) {
+                System.err.println(e.getMessage());
+            }
         }
-        workTimeCount++;
-    }
-
-    public static void runBreakTime() throws InterruptedException {
-        int breakTime = 5 * 60 * 1000;
-        minutes = timeInMinutes(breakTime) % 60;
-        System.out.println("====== long break time =======");
-        while (breakTime > 0) {
-            System.out.format("%02d:%02d\n", minutes, seconds);
-            Thread.sleep(1000);
-            breakTime -= 1000;
-            minutes = timeInMinutes(breakTime) % 60;
-            seconds = timeInSeconds(breakTime) % 60;
-        }
-        breakTimeCount++;
-    }
-
-    public static void runLongBreakTime() throws InterruptedException {
-        int longBreakTime = 15 * 60 * 1000;
-        minutes = timeInMinutes(longBreakTime) % 60;
-        System.out.println("====== long break time =======");
-        while (longBreakTime > 0) {
-            System.out.format("%02d:%02d\n", minutes, seconds);
-            Thread.sleep(1000);
-            longBreakTime -= 1000;
-            minutes = timeInMinutes(longBreakTime) % 60;
-            seconds = timeInSeconds(longBreakTime) % 60;
-        }
-        longBreakTimeCount++;
     }
 
     private static int timeInMinutes(int time) {
@@ -91,7 +71,7 @@ public class App {
     }
 
     private static int timeInSeconds(int time) {
-        return  time / 1000;
+        return time / 1000;
     }
 
 }
