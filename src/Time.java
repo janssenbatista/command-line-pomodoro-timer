@@ -3,7 +3,7 @@ public enum Time {
     BREAK_TIME(5),
     LONG_BREAK_TIME(15);
 
-    int value;
+    final int value;
 
     Time(int value) {
         this.value = value;
