@@ -1,7 +1,7 @@
 # POMORODO TIMER FROM COMMAND LINE
 
 ### Requirements
-- [Java JDK]("https://openjdk.org/")
+- [Java JDK](https://openjdk.org/)
 
 ### Compile the application
 ```bash
